@@ -1,0 +1,40 @@
+h1{
+  width:100%;
+  text-align:center;
+}
+
+@media (min-width: 768px) {
+  div.login-container{
+    width:40%;
+    margin:0 auto;
+    padding:40px;
+    -webkit-box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
+    margin-top:40px;
+  }
+}
+
+@media (max-width: 767px) {
+  div.login-container{
+    width:100%;
+    margin:0 auto;
+  }
+}
+
+div.login-container > h2{
+  margin-top:0px;
+}
+
+div.login-container input.form-control{
+  margin-top:10px;
+}
+
+div.login-container button{
+  margin-top:10px;
+}
+
+button.login-forgot-btn{
+
+  width:100%;
+}

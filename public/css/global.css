@@ -1,0 +1,38 @@
+/**
+  .color-primary { color: #0EA47A }	- Main
+  .color-secondary { color: #53C1A3 }
+  .color-tertiary { color: #2FAC89 }
+  .color-quaternary { color: #018560 }
+  .color-quinary { color: #00694C }
+*/
+div#header{
+  width:100%;
+  background-color:#00694C;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+div.header-logo{
+  width:100%;
+  text-align:center;
+}
+
+span.label-primary{
+  background-color: #0EA47A;
+}
+
+span.label-secondary{
+  background-color: #53C1A3;
+}
+
+span.label-tertiary{
+  background-color: #2FAC89;
+}
+
+span.label-quaternary{
+  background-color: #018560;
+}
+
+span.label-quinary{
+  background-color: #00694C;
+}
