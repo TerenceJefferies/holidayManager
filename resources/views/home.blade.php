@@ -6,9 +6,5 @@
 
 @section('content')
   <h1>Welcome {{ $userName }}</h1>
-  <h3>
-    <small>You have:</small>
-    <span class="label label-quinary">{{ $holidayDaysRemaining }}</span>
-    <small>holiday days remaining.</small>
-  </h3>
+  <p>You have {{ $daysRemaining }} holiday days remaining</p>
 @endsection('content')

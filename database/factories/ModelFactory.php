@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\HolidayManager\User\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -21,4 +21,24 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
+});
+
+$factory -> define(App\HolidayManager\HolidayTime\HolidayAllowance::class, function(Faker\Generator $faker) {
+    return [
+      'user_id' => function() {
+        return factory('App\HolidayManager\User\User') -> create() -> id;
+      },
+      'days' => $faker -> numberBetween(10,50),
+      'starts' => $faker -> dateTime(),
+      'ends' => $faker -> dateTimeBetween('now','+1 years')
+    ];
+});
+
+$factory -> define(App\HolidayManager\HolidayTime\HolidayExpenditure::class, function(Faker\Generator $faker) {
+  return [
+    'allowance_id' => function() {
+      return factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create() -> id;
+    },
+    'days' => $faker -> numberBetween(10,50)
+  ];
 });
