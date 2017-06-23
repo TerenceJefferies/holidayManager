@@ -30,15 +30,22 @@ $factory -> define(App\HolidayManager\HolidayTime\HolidayAllowance::class, funct
       },
       'days' => $faker -> numberBetween(10,50),
       'starts' => $faker -> dateTime(),
-      'ends' => $faker -> dateTimeBetween('now','+1 years')
+      'ends' => $faker -> dateTimeBetween('now','+1 years'),
+      'period_name' => 'Year'
     ];
 });
 
 $factory -> define(App\HolidayManager\HolidayTime\HolidayExpenditure::class, function(Faker\Generator $faker) {
+  $startDate = $faker -> dateTimeBetween('now','+1 years');
+  $endDateEnd = clone $startDate;
+  $endDateEnd -> add(new DateInterval('P10D'));
+  $endDate = $faker -> dateTimeBetween($startDate,$endDateEnd);
   return [
     'allowance_id' => function() {
       return factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create() -> id;
     },
-    'days' => $faker -> numberBetween(10,50)
+    'days' => $faker -> numberBetween(10,50),
+    'starts' => $startDate,
+    'ends' => $endDate
   ];
 });

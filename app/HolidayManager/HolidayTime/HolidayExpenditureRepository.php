@@ -14,10 +14,23 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     allowance ID provided
   */
   public function getByAllowanceId($id) {
-      $expenditures = HolidayExpenditure::query()
+      $expenditures = $this -> getQueryBuilder()
       -> where('allowance_id','=',$id)
       -> get();
       return $expenditures;
+  }
+
+  /**
+    Central method for retrieving a query builder for interaction, allows
+    global rules for appliability to be applied/removed in a central place
+
+    @param Array $ruleExclusions An array containing any rules that should not
+    be applied to this get
+
+    @return \Illuminate\Support\Facades\DB
+  */
+  private function getQueryBuilder($ruleExclusions=[]) {
+    return HolidayExpenditure::query();
   }
 
 }

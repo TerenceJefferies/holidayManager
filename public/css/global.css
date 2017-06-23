@@ -1,38 +1,25 @@
 /**
-  .color-primary { color: #0EA47A }	- Main
-  .color-secondary { color: #53C1A3 }
-  .color-tertiary { color: #2FAC89 }
-  .color-quaternary { color: #018560 }
-  .color-quinary { color: #00694C }
+  http://paletton.com/#uid=13l0g0koSDm4qUQgLJoD9y+Kone
+  .color-primary-0 { color: #2BA5B6 } //Main
+  .color-primary-1 { color: #CCE8EC } // Secondary (Highlight)
+  .color-primary-2 { color: #61BCC9 }
+  .color-primary-3 { color: #0291A5 }
+  .color-primary-4 { color: #016471 }
 */
+
+html, body{
+  font-family: 'Multi', sans-serif;
+}
+
 div#header{
   width:100%;
-  background-color:#00694C;
+  background-color:#2BA5B6;
   padding-top:10px;
   padding-bottom:10px;
 }
 
 div.header-logo{
+  color: #CCE8EC;
   width:100%;
   text-align:center;
-}
-
-span.label-primary{
-  background-color: #0EA47A;
-}
-
-span.label-secondary{
-  background-color: #53C1A3;
-}
-
-span.label-tertiary{
-  background-color: #2FAC89;
-}
-
-span.label-quaternary{
-  background-color: #018560;
-}
-
-span.label-quinary{
-  background-color: #00694C;
 }

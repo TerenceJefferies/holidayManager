@@ -43,4 +43,5 @@ class LoginTest extends TestCase
       ]);
       $response -> assertRedirect('/');
     }
+
 }

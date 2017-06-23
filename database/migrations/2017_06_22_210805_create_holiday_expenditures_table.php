@@ -18,6 +18,8 @@ class CreateHolidayExpendituresTable extends Migration
           $table -> integer('allowance_id') -> unsigned();
           $table -> foreign('allowance_id') -> references('id') -> on('holiday_allowances');
           $table -> double('days',3,1);
+          $table -> date('starts');
+          $table -> date('ends');
           $table->timestamps();
         });
     }

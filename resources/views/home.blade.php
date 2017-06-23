@@ -5,6 +5,21 @@
 @endsection('head')
 
 @section('content')
-  <h1>Welcome {{ $userName }}</h1>
-  <p>You have {{ $daysRemaining }} holiday days remaining</p>
+  <div class="row dashboard-info-node-container">
+    <div class="col-sm-12 col-md-3 col-md-offset-1 dashboard-info-node">
+      <p class="dashboard-info-node-header">You have...</p>
+      <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $daysRemaining }}</span></p>
+      <p class="dashboard-info-node-footnote">days holiday remaining this {{ $periodName }}</p>
+    </div>
+    <div class="col-sm-12 col-md-3 dashboard-info-node">
+      <p class="dashboard-info-node-header">You have used...</p>
+      <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $daysUsed }}</span></p>
+      <p class="dashboard-info-node-footnote">days this {{ $periodName }}</p>
+    </div>
+    <div class="col-sm-12 col-md-3 dashboard-info-node">
+      <p class="dashboard-info-node-header">Your next holiday starts on...</p>
+      <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $nextHoliday -> starts -> format('d/m/Y') }}</span></p>
+      <p class="dashboard-info-node-footnote">for {{ $nextHoliday -> days }} days</p>
+    </div>
+  </div>
 @endsection('content')

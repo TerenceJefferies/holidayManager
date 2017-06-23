@@ -35,9 +35,6 @@ class HomeController extends Controller
   /**
     Processes the initial request for the homepage
 
-    @TODO Write tests for the below
-    @TODO Take action when no allowance is available
-
     @param \Illuminate\Http\Request $request
     @return \Illuminate\Http\Response
   */
@@ -45,12 +42,17 @@ class HomeController extends Controller
     $user = Auth::user();
     $allowance = $this -> holidayAllowanceRepository -> getByUserId($user -> id);
     if($allowance) {//The user may not have any allowances
-      $expenditures = $this -> holidayExpenditureRepository -> getByAllowanceId($allowance -> id);
+      $expenditures = $this -> holidayAllowanceRepository -> getExpenditures($allowance);
       $holidayTimeCalculator = new HolidayTimeCalculator($allowance);
       $daysRemaining = $holidayTimeCalculator -> calculateRemainingDays($expenditures);
+      $daysUsed = HolidayTimeCalculator::calculateHolidayDaysUsed($expenditures);
+      $nextHoliday = $this -> holidayAllowanceRepository -> getNextExpenditure($allowance);
       return view('home',[
         'userName' => $user -> name,
-        'daysRemaining' => $daysRemaining
+        'daysRemaining' => $daysRemaining,
+        'daysUsed' => $daysUsed,
+        'periodName' => $allowance -> period_name,
+        'nextHoliday' => $nextHoliday
       ]);
     } else {
       //There is no allowance for the user???

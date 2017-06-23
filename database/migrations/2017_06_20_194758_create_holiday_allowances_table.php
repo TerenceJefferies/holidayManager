@@ -19,6 +19,7 @@ class CreateHolidayAllowancesTable extends Migration
             $table -> foreign('user_id') -> references('id') -> on('users');
             $table -> double('days',3,1);
             $table -> dateTime('starts');
+            $table -> string('period_name');
             $table -> dateTime('ends');
             $table->timestamps();
         });

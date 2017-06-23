@@ -6,7 +6,7 @@
 
 @section('content')
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6 col-md-offset-3 col-sm-12">
       <h1>Holiday Manager</h1>
       <div class="login-container">
         <h2>Login</h2>
