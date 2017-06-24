@@ -1,6 +1,8 @@
 <?php
 namespace App\HolidayManager\HolidayTime;
 
+use Illuminate\Database\Eloquent\Builder;
+
 use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
 use Carbon\Carbon;
 
@@ -14,7 +16,9 @@ class HolidayAllowanceRepository implements HolidayAllowanceRepositoryInterface{
     the user
   */
   public function getByUserId($id) {
-    $allowance = $this -> getQueryBuilder()
+    $query = HolidayAllowance::query();
+    $this -> scopeQuery($query);
+    $allowance = $query
       -> where('user_id','=',$id)
       -> orderBy('id','desc')
       -> limit(1);
@@ -22,24 +26,22 @@ class HolidayAllowanceRepository implements HolidayAllowanceRepositoryInterface{
   }
 
   /**
-    Standard query builder retriever for this repository, designed to allow
-    for a standard set of rules to be updated in a single locale
+    Standardises a method to follow basic rules
 
+    @param \Illuminate\Database\Eloquent\Builder $query The query to scope
     @param Array $ruleExclusions A list of rules that should not be applied
     to this instance of the query builder - Optional
 
     @return \Illuminate\Support\Facades\DB
   */
-  private function getQueryBuilder($ruleExclusions=[]) {
+  private function scopeQuery(Builder &$query, $ruleExclusions=[]) {
     $currentDate = Carbon::now() -> toDateTimeString();
-    $query = HolidayAllowance::query();
     if(!isset($ruleExclusions['starts'])) {
       $query -> where('starts','<=',$currentDate);
     }
     if(!isset($ruleExclusions['ends'])) {
       $query -> where('ends','>',$currentDate);
     }
-    return $query;
   }
 
 }
