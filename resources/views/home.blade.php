@@ -31,36 +31,38 @@
     <a href="#"><div class="col-md-4 col-md-offset-1">Request a new holiday</div></a>
     <a href="#"><div class="col-md-3 col-md-offset-1">My usage</div></a>
   </div>
-  <div class="dashboard-info-expenditures-container">
-    <div class="row dashboard-info-expenditures-headers hidden-sm hidden-xs">
-        <div class="col-md-2 col-md-offset-1">Date Requested</div>
-        <div class="col-md-2">Start Date</div>
-        <div class="col-md-2">End Date</div>
-        <div class="col-md-2">Days</div>
-        <div class="col-md-2">Status</div>
-      </div>
-      @foreach($expenditures -> take(5) as $expenditure)
-        <div class="row dashboard-info-expenditures-list-container">
-          <div class="col-xs-12 col-md-2 col-md-offset-1"><label class="hidden-md hidden-lg">Requested:</label> {{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
-          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Starts:</label> {{ $expenditure -> starts -> format('d/m/Y') }}</div>
-          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Ends:</label> {{ $expenditure -> ends -> format('d/m/Y') }}</div>
-          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Days:</label> {{ $expenditure -> days }}</div>
-          @if($expenditure -> status == 'approved')
-            <div class="col-xs-12 col-md-2 bg-success">
-              {{ $expenditure -> getStatusCodeName() }}
-            </div>
-          @endif
-          @if($expenditure -> status == 'pending')
-            <div class="col-xs-12 col-md-2 bg-warning">
-              {{ $expenditure -> getStatusCodeName() }}
-            </div>
-          @endif
-          @if($expenditure -> status == 'rejected')
-            <div class="col-xs-12 col-md-2 bg-danger">
-              {{ $expenditure -> getStatusCodeName() }}
-            </div>
-          @endif
+  @if($expenditures -> count() > 0)
+    <div class="dashboard-info-expenditures-container">
+      <div class="row dashboard-info-expenditures-headers hidden-sm hidden-xs">
+          <div class="col-md-2 col-md-offset-1">Date Requested</div>
+          <div class="col-md-2">Start Date</div>
+          <div class="col-md-2">End Date</div>
+          <div class="col-md-2">Days</div>
+          <div class="col-md-2">Status</div>
         </div>
-    @endforeach
-  </div>
+        @foreach($expenditures -> take(5) as $expenditure)
+          <div class="row dashboard-info-expenditures-list-container">
+            <div class="col-xs-12 col-md-2 col-md-offset-1"><label class="hidden-md hidden-lg">Requested:</label> {{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
+            <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Starts:</label> {{ $expenditure -> starts -> format('d/m/Y') }}</div>
+            <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Ends:</label> {{ $expenditure -> ends -> format('d/m/Y') }}</div>
+            <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Days:</label> {{ $expenditure -> days }}</div>
+            @if($expenditure -> status == 'approved')
+              <div class="col-xs-12 col-md-2 bg-success">
+                {{ $expenditure -> getStatusCodeName() }}
+              </div>
+            @endif
+            @if($expenditure -> status == 'pending')
+              <div class="col-xs-12 col-md-2 bg-warning">
+                {{ $expenditure -> getStatusCodeName() }}
+              </div>
+            @endif
+            @if($expenditure -> status == 'rejected')
+              <div class="col-xs-12 col-md-2 bg-danger">
+                {{ $expenditure -> getStatusCodeName() }}
+              </div>
+            @endif
+          </div>
+      @endforeach
+    </div>
+  @endif
 @endsection('content')
