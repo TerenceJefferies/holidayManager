@@ -6,6 +6,18 @@ use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
 class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterface{
 
   /**
+    Gets the expenditures associated with an allowance
+
+    @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface
+    $holidayAllowance The allowance to get the expenditures for
+
+    @return Collection The associated expenditures
+  */
+  public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance) {
+    return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> get();
+  }
+
+  /**
     Returns an appropriate set of objects based on the allowance ID provided
 
     @param Integer $id The ID of the allowance to use

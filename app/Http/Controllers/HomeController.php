@@ -42,7 +42,7 @@ class HomeController extends Controller
     $user = Auth::user();
     $allowance = $this -> holidayAllowanceRepository -> getByUserId($user -> id);
     if($allowance) {//The user may not have any allowances
-      $expenditures = $this -> holidayAllowanceRepository -> getExpenditures($allowance);
+      $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowance($allowance);
       $holidayTimeCalculator = new HolidayTimeCalculator($allowance);
       $daysRemaining = $holidayTimeCalculator -> calculateRemainingDays($expenditures);
       $daysUsed = HolidayTimeCalculator::calculateHolidayDaysUsed($expenditures);

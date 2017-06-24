@@ -22,18 +22,6 @@ class HolidayAllowanceRepository implements HolidayAllowanceRepositoryInterface{
   }
 
   /**
-    Gets the expenditures associated with an allowance
-
-    @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface
-    $holidayAllowance The allowance to get the expenditures for
-
-    @return Collection The associated expenditures
-  */
-  public function getExpenditures(HolidayAllowanceInterface $holidayAllowance) {
-    return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> get();
-  }
-
-  /**
     Gets the next expenditure for this holiday allowance for the user, closest
     to the current date
 

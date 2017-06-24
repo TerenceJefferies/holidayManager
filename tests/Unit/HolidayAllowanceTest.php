@@ -65,8 +65,8 @@ class HolidayAllowanceTest extends TestCase
     public function testGetExpendituresFromAllowancesUnsuccessfully() {
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id]);
-      $repo = new HolidayAllowanceRepository();
-      $expenditures = $repo -> getExpenditures($allowance);
+      $repo = new HolidayExpenditureRepository();
+      $expenditures = $repo -> getExpendituresForAllowance($allowance);
       $this -> assertContainsOnly('null',$expenditures);
     }
 
