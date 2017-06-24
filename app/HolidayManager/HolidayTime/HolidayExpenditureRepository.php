@@ -1,6 +1,8 @@
 <?php
 namespace App\HolidayManager\HolidayTime;
 
+use Illuminate\Database\Eloquent\Builder;
+
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
 Use Carbon\Carbon;
 
@@ -15,7 +17,9 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     @return Collection The associated expenditures
   */
   public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance) {
-    return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> get();
+    $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
+    $this -> scopeQuery($query);
+    return $query -> get();
   }
 
   /**
@@ -27,12 +31,13 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
   */
   public function getNextExpenditureForAllowance(HolidayAllowanceInterface $holidayAllowance) {
     $currentDate = Carbon::now() -> toDateTimeString();
-    return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id')
-      -> getQuery()
-      -> where('starts','>',$currentDate)
+    $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
+    $this -> scopeQuery($query);
+    $result = $query -> where('starts','>',$currentDate)
       -> orderBy('starts','asc')
       -> limit(1)
       -> first();
+      return $result;
   }
 
   /**
@@ -44,23 +49,26 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     allowance ID provided
   */
   public function getByAllowanceId($id) {
-      $expenditures = $this -> getQueryBuilder()
+      $query = HolidayExpenditure::query();
+      $this -> scopeQuery($query);
+      $expenditures = $query
       -> where('allowance_id','=',$id)
       -> get();
       return $expenditures;
   }
 
   /**
-    Central method for retrieving a query builder for interaction, allows
-    global rules for appliability to be applied/removed in a central place
+    Scoping method to ensure the query made follows any applicable rules
 
+    @param \Illuminate\Database\Eloquent\Builder The builder to scope - Pass
+    by reference
     @param Array $ruleExclusions An array containing any rules that should not
     be applied to this get
 
-    @return \Illuminate\Support\Facades\DB
+    @return Void
   */
-  private function getQueryBuilder($ruleExclusions=[]) {
-    return HolidayExpenditure::query();
+  private function scopeQuery(Builder &$query, $ruleExclusions=[]) {
+
   }
 
 }
