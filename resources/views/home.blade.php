@@ -9,14 +9,9 @@
     <div class="col-sm-12 col-md-3 dashboard-info-node">
       <p class="dashboard-info-node-header">You have...</p>
       <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $daysRemaining }}</span></p>
-      <p class="dashboard-info-node-footnote">days holiday remaining this {{ $periodName }}</p>
+      <p class="dashboard-info-node-footnote">days remaining this {{ $periodName }}</p>
     </div>
-    <div class="col-sm-12 col-md-3 dashboard-info-node">
-      <p class="dashboard-info-node-header">You have used...</p>
-      <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $daysUsed }}</span></p>
-      <p class="dashboard-info-node-footnote">days this {{ $periodName }}</p>
-    </div>
-    <div class="col-sm-12 col-md-3 dashboard-info-node">
+    <div class="col-sm-12 col-md-4 col-md-offset-1 dashboard-info-node">
       @if($nextHoliday)
         <p class="dashboard-info-node-header">Your next holiday starts on...</p>
         <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $nextHoliday -> starts -> format('d/m/Y') }}</span></p>
@@ -25,10 +20,20 @@
         <p class="dashboard-info-node-footnote">You do not have any approved upcoming holidays</p>
       @endif
     </div>
+    <div class="col-sm-12 col-md-3 col-md-offset-1 dashboard-info-node">
+      <p class="dashboard-info-node-header">You have used...</p>
+      <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $daysUsed }}</span></p>
+      <p class="dashboard-info-node-footnote">days this {{ $periodName }}</p>
+    </div>
+  </div>
+  <div class="row dashboard-action-button-container">
+    <a href="#"><div class="col-md-3">View my allowance</div></a>
+    <a href="#"><div class="col-md-4 col-md-offset-1">Request a new holiday</div></a>
+    <a href="#"><div class="col-md-3 col-md-offset-1">My usage</div></a>
   </div>
   <div class="dashboard-info-expenditures-container">
     <div class="row dashboard-info-expenditures-headers hidden-sm hidden-xs">
-        <div class="col-md-2">Date Requested</div>
+        <div class="col-md-2 col-md-offset-1">Date Requested</div>
         <div class="col-md-2">Start Date</div>
         <div class="col-md-2">End Date</div>
         <div class="col-md-2">Days</div>
@@ -36,7 +41,7 @@
       </div>
       @foreach($expenditures as $expenditure)
         <div class="row dashboard-info-expenditures-list-container">
-          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Requested:</label> {{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
+          <div class="col-xs-12 col-md-2 col-md-offset-1"><label class="hidden-md hidden-lg">Requested:</label> {{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
           <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Starts:</label> {{ $expenditure -> starts -> format('d/m/Y') }}</div>
           <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Ends:</label> {{ $expenditure -> ends -> format('d/m/Y') }}</div>
           <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Days:</label> {{ $expenditure -> days }}</div>

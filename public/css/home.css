@@ -27,6 +27,35 @@
   div.dashboard-info-node-container{
     margin-top:40px;
   }
+
+  div.dashboard-action-button-container{
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+  div.dashboard-action-button-container > a > div{
+    background-color:#61BCC9;
+    color:white;
+    border-radius: 5px;
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  div.dashboard-info-expenditures-container{
+    margin-top:80px;
+  }
+
+  div.dashboard-info-expenditures-headers > div{
+    text-align:center;
+    background-color:#2BA5B6;
+    color:white;
+    border:1px solid white;
+  }
+
+  div.dashboard-info-expenditures-container > div.dashboard-info-expenditures-list-container:nth-child(odd) > div:not(:last-child) {
+    background-color:#CCE8EC;
+  }
+
 }
 
 @media screen and (max-width: 767px) {
@@ -35,6 +64,20 @@
     padding-top:10px;
     padding-bottom:10px;
   }
+
+  div.dashboard-action-button-container{
+  }
+
+  div.dashboard-action-button-container > a > div{
+    background-color:#61BCC9;
+    color:white;
+    border-radius: 5px;
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-top:10px;
+  }
+
 }
 
 p.dashboard-info-expenditures-status{
@@ -44,14 +87,6 @@ p.dashboard-info-expenditures-status{
 div.dashboard-info-expenditures-list-container > div{
   padding:10px;
   text-align:center;
-}
-
-div.dashboard-info-expenditures-headers > div{
-  text-align:center;
-}
-
-div.dashboard-info-expenditures-container{
-  margin-top:20px;
 }
 
 p.dashboard-info-node-focus{
