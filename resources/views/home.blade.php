@@ -6,7 +6,7 @@
 
 @section('content')
   <div class="row dashboard-info-node-container">
-    <div class="col-sm-12 col-md-3 col-md-offset-1 dashboard-info-node">
+    <div class="col-sm-12 col-md-3 dashboard-info-node">
       <p class="dashboard-info-node-header">You have...</p>
       <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $daysRemaining }}</span></p>
       <p class="dashboard-info-node-footnote">days holiday remaining this {{ $periodName }}</p>

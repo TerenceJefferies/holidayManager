@@ -5,7 +5,6 @@
     padding:10px;
     border:1px solid #CCE8EC;
     border-radius: 5px;
-    margin: 10px;
   }
 
   div.dashboard-info-node:hover{
@@ -27,6 +26,14 @@
 
   div.dashboard-info-node-container{
     margin-top:40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  div.dashboard-info-node{
+    border-bottom:1px solid #016471;
+    padding-top:10px;
+    padding-bottom:10px;
   }
 }
 

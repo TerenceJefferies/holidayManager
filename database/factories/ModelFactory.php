@@ -46,6 +46,7 @@ $factory -> define(App\HolidayManager\HolidayTime\HolidayExpenditure::class, fun
     },
     'days' => $faker -> numberBetween(10,50),
     'starts' => $startDate,
-    'ends' => $endDate
+    'ends' => $endDate,
+    'approved' => $faker -> boolean()
   ];
 });

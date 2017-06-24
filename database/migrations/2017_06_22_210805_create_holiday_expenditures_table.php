@@ -20,6 +20,7 @@ class CreateHolidayExpendituresTable extends Migration
           $table -> double('days',3,1);
           $table -> date('starts');
           $table -> date('ends');
+          $table -> boolean('approved');
           $table->timestamps();
         });
     }
