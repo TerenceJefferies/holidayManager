@@ -18,6 +18,11 @@ div#header{
   padding-bottom:10px;
 }
 
+div#header a{
+  text-decoration:none;
+  color:inherit;
+}
+
 div.header-logo{
   color: #CCE8EC;
   width:100%;

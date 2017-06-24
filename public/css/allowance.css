@@ -1,0 +1,8 @@
+div.allowance-list > div:not(:last-child){
+  border-bottom:1px solid #2BA5B6;
+}
+
+div.allowance-list > div{
+  padding-top:10px;
+  padding-bottom:10px;
+}

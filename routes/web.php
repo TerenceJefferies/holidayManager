@@ -6,7 +6,7 @@ Route::get('/', function () {
 Route::get('/login',['as' => 'login', 'uses' => function() {
   return view('index');
 }]);
-Route::get('/home','HomeController@index');
-Route::get('/allowance',['as' => 'allowance','uses' => 'AllowanceController@index']);
+Route::get('/home','HomeController@index') -> name('home');
+Route::get('/allowance','AllowanceController@index') -> name('allowance');
 
 Route::post('/login','LoginController@login');
