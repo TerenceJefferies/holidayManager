@@ -26,18 +26,25 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     Gets the next expenditure for this holiday allowance for the user, closest
     to the current date
 
+    @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface
+    $holidayAllowance The allowance to get the next expenditure for
+    @param Boolean $showUnapproved True if expenditures that have not been
+    approved should be shown, false otherwise - Optional - Defaults to false
+
     @return \App\HolidayManager\HolidayTime\HolidayExpenditure The next
     expenditure associated with the allowance
   */
-  public function getNextExpenditureForAllowance(HolidayAllowanceInterface $holidayAllowance) {
+  public function getNextExpenditureForAllowance(HolidayAllowanceInterface $holidayAllowance,$showUnapproved=false) {
     $currentDate = Carbon::now() -> toDateTimeString();
     $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
     $this -> scopeQuery($query);
-    $result = $query -> where('starts','>',$currentDate)
-      -> orderBy('starts','asc')
-      -> limit(1)
-      -> first();
-      return $result;
+    $query -> where('starts','>',$currentDate);
+    if(!$showUnapproved) {
+      $query -> where('approved','1');
+    }
+    $query -> orderBy('starts','asc')
+      -> limit(1);
+      return $query -> first();
   }
 
   /**

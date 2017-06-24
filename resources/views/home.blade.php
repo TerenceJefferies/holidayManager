@@ -17,9 +17,13 @@
       <p class="dashboard-info-node-footnote">days this {{ $periodName }}</p>
     </div>
     <div class="col-sm-12 col-md-3 dashboard-info-node">
-      <p class="dashboard-info-node-header">Your next holiday starts on...</p>
-      <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $nextHoliday -> starts -> format('d/m/Y') }}</span></p>
-      <p class="dashboard-info-node-footnote">for {{ $nextHoliday -> days }} days</p>
+      @if($nextHoliday)
+        <p class="dashboard-info-node-header">Your next holiday starts on...</p>
+        <p class="dashboard-info-node-focus"><span class="dashboard-info-node-value">{{ $nextHoliday -> starts -> format('d/m/Y') }}</span></p>
+        <p class="dashboard-info-node-footnote">for {{ $nextHoliday -> days }} days</p>
+      @else
+        <p class="dashboard-info-node-footnote">You do not have any approved upcoming holidays</p>
+      @endif
     </div>
   </div>
 @endsection('content')
