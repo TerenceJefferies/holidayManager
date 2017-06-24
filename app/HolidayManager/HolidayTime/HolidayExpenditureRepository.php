@@ -9,6 +9,35 @@ Use Carbon\Carbon;
 class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterface{
 
   /**
+    Gets expenditures by the status or multiple status operators provided
+
+    @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface
+    $holidayAllowance The allowance to get the expenditures for
+    @paraam Mixed $status Either a string with the single status being searched
+    for, or an array of statuses being searched for
+
+    @return Collection The reults - Null if nothing available
+  */
+  public function getExpendituresForAllowanceByStatus(HolidayAllowanceInterface $holidayAllowance,$status) {
+    $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
+    $this -> scopeQuery($query);
+    if($status) {
+      if(is_array($status)) {
+        $query -> where(function($query) use ($status) {
+          $count = 0;
+          foreach($status as $statusEntry) {
+            $query -> orWhere('status','=',$statusEntry);
+            $count ++;
+          }
+        });
+      } else if(is_string($status)) {
+        $query -> where('status','=',$status);
+      }
+      return $query -> get();
+    }
+    return null;
+  }
+  /**
     Gets the expenditures associated with an allowance
 
     @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface

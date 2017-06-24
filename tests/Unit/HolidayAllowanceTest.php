@@ -168,4 +168,23 @@ class HolidayAllowanceTest extends TestCase
       $remainingDays = $calculator -> calculateRemainingDays($expenditures);
       $this -> assertEquals($expenditures -> count(), 5);
     }
+
+    /**
+      Tests to ensure holiday expenditures can be retrieved by status
+
+      @return void
+    */
+    public function testGetExpendituresForAllowanceByStatus() {
+      $user = factory('App\HolidayManager\User\User') -> create();
+      $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'rejected']);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'pending']);
+      $repo = new HolidayExpenditureRepository();
+      $approvedExpenditures = $repo -> getExpendituresForAllowanceByStatus($allowance,'approved');
+      $this -> assertEquals($approvedExpenditures -> count(), 2);
+      $mixedExpenditures = $repo -> getExpendituresForAllowanceByStatus($allowance,['approved','pending']);
+      $this -> assertEquals($mixedExpenditures -> count(), 3);
+    }
 }
