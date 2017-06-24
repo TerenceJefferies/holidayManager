@@ -39,7 +39,7 @@
         <div class="col-md-2">Days</div>
         <div class="col-md-2">Status</div>
       </div>
-      @foreach($expenditures as $expenditure)
+      @foreach($expenditures -> take(5) as $expenditure)
         <div class="row dashboard-info-expenditures-list-container">
           <div class="col-xs-12 col-md-2 col-md-offset-1"><label class="hidden-md hidden-lg">Requested:</label> {{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
           <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Starts:</label> {{ $expenditure -> starts -> format('d/m/Y') }}</div>
