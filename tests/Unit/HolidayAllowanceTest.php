@@ -166,7 +166,7 @@ class HolidayAllowanceTest extends TestCase
       $expenditures = $repo -> getExpendituresForAllowance($allowance,true,5);
       $calculator = new HolidayTimeCalculator($allowance);
       $remainingDays = $calculator -> calculateRemainingDays($expenditures);
-      $this -> assertEquals($expenditures -> count(), 5);
+      $this -> assertEquals(5,$expenditures -> count());
     }
 
     /**
@@ -183,8 +183,25 @@ class HolidayAllowanceTest extends TestCase
       factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'pending']);
       $repo = new HolidayExpenditureRepository();
       $approvedExpenditures = $repo -> getExpendituresForAllowanceByStatus($allowance,'approved');
-      $this -> assertEquals($approvedExpenditures -> count(), 2);
+      $this -> assertEquals(2,$approvedExpenditures -> count());
       $mixedExpenditures = $repo -> getExpendituresForAllowanceByStatus($allowance,['approved','pending']);
-      $this -> assertEquals($mixedExpenditures -> count(), 3);
+      $this -> assertEquals(3,$mixedExpenditures -> count());
+    }
+
+    /**
+      Tests to ensure holiday expenditures can be retrieved by status can be
+      limited
+
+      @return void
+    */
+    public function testGetExpendituresForAllowanceByStatusLimited() {
+      $user = factory('App\HolidayManager\User\User') -> create();
+      $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
+      $repo = new HolidayExpenditureRepository();
+      $limitedExpenditures = $repo -> getExpendituresForAllowanceByStatus($allowance,'approved',2);
+      $this -> assertEquals(2,$limitedExpenditures -> count());
     }
 }

@@ -13,12 +13,14 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
 
     @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface
     $holidayAllowance The allowance to get the expenditures for
-    @paraam Mixed $status Either a string with the single status being searched
+    @param Mixed $status Either a string with the single status being searched
     for, or an array of statuses being searched for
+    @param Integer $limit The maximum number of results that should be
+    returned
 
     @return Collection The reults - Null if nothing available
   */
-  public function getExpendituresForAllowanceByStatus(HolidayAllowanceInterface $holidayAllowance,$status) {
+  public function getExpendituresForAllowanceByStatus(HolidayAllowanceInterface $holidayAllowance,$status,Int $limit=0) {
     $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
     $this -> scopeQuery($query);
     if($status) {
@@ -33,9 +35,11 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
       } else if(is_string($status)) {
         $query -> where('status','=',$status);
       }
-      return $query -> get();
     }
-    return null;
+    if($limit > 0) {
+      $query -> limit($limit);
+    }
+    return $query -> get();
   }
   /**
     Gets the expenditures associated with an allowance
@@ -49,15 +53,12 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     @return Collection The associated expenditures
   */
   public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance,Bool $showUnapproved=true,Int $limit=0) {
-    $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
-    $this -> scopeQuery($query);
+    $restrictions = null;
     if(!$showUnapproved) {
-      $query -> where('status','=','approved');
+      $restrictions = ['approved'];
     }
-    if($limit) {
-      $query -> limit($limit);
-    }
-    return $query -> get();
+    $result = $this -> getExpendituresForAllowanceByStatus($holidayAllowance,$restrictions,$limit);
+    return $result;
   }
 
   /**
@@ -82,7 +83,7 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     }
     $query -> orderBy('starts','asc')
       -> limit(1);
-      return $query -> first();
+    return $query -> first();
   }
 
   /**
