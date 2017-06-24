@@ -117,4 +117,20 @@ class HolidayAllowanceTest extends TestCase
       $nextExpenditure = $repo -> getNextExpenditureForAllowance($allowance);
       $this -> assertEquals($correctResult -> id,$nextExpenditure -> id);
     }
+
+    /**
+      Tests to ensure that unapproved the next unapproved holiday can be
+      retrieved
+
+      @return void
+    */
+    public function testGetNextUnapprovedHoliday() {
+      $user = factory('App\HolidayManager\User\User') -> create();
+      $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
+      $correctResult = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'approved' => 0,'starts' => \Carbon\Carbon::now() -> addDays(5) -> toDateTImeString()]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'approved' => 1,'starts' => \Carbon\Carbon::now() -> addDays(10) -> toDateTimeString()]);
+      $repo = new holidayExpenditureRepository();
+      $nextExpenditure = $repo -> getNextExpenditureForAllowance($allowance,true);
+      $this -> assertEquals($correctResult -> id,$nextExpenditure -> id);
+    }
 }
