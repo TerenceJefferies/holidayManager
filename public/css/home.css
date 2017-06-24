@@ -9,7 +9,6 @@
 
   div.dashboard-info-node:hover{
     background-color: #CCE8EC;
-    cursor: pointer;
   }
 
   p.dashboard-info-node-focus{

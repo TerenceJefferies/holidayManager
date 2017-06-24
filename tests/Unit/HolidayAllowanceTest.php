@@ -80,7 +80,7 @@ class HolidayAllowanceTest extends TestCase
     public function testGetRemainingDays() {
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
-      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
       $repo = new HolidayExpenditureRepository();
       $expenditures = $repo -> getExpendituresForAllowance($allowance);
       $calculator = new HolidayTimeCalculator($allowance);
@@ -96,7 +96,8 @@ class HolidayAllowanceTest extends TestCase
     public function testCaclulateHolidayDaysUsed() {
       $expenditures = factory('App\HolidayManager\HolidayTime\HolidayExpenditure',10) -> make([
         'allowance_id' => 0,
-        'days' => 5
+        'days' => 5,
+        'status' => 'approved'
       ]);
       $expectedDays = 50;
       $expenditure = HolidayTimeCalculator::calculateHolidayDaysUsed($expenditures);
@@ -149,5 +150,22 @@ class HolidayAllowanceTest extends TestCase
       $calculator = new HolidayTimeCalculator($allowance);
       $remainingDays = $calculator -> calculateRemainingDays($expenditures);
       $this -> assertEquals($expenditures -> count(), 0);
+    }
+
+    /**
+      Ensures that only the appropriate number of elements are returned from
+      the expenditure gathering method
+
+      @return void
+    */
+    public function testGetExpendituresWithLimit() {
+      $user = factory('App\HolidayManager\User\User') -> create();
+      $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure',10) -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'approved']);
+      $repo = new HolidayExpenditureRepository();
+      $expenditures = $repo -> getExpendituresForAllowance($allowance,true,5);
+      $calculator = new HolidayTimeCalculator($allowance);
+      $remainingDays = $calculator -> calculateRemainingDays($expenditures);
+      $this -> assertEquals($expenditures -> count(), 5);
     }
 }
