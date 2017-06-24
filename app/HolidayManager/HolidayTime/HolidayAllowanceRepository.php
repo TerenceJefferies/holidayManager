@@ -22,23 +22,6 @@ class HolidayAllowanceRepository implements HolidayAllowanceRepositoryInterface{
   }
 
   /**
-    Gets the next expenditure for this holiday allowance for the user, closest
-    to the current date
-
-    @return \App\HolidayManager\HolidayTime\HolidayExpenditure The next
-    expenditure associated with the allowance
-  */
-  public function getNextExpenditure(HolidayAllowanceInterface $holidayAllowance) {
-    $currentDate = Carbon::now() -> toDateTimeString();
-    return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id')
-      -> getQuery()
-      -> where('starts','>',$currentDate)
-      -> orderBy('starts','asc')
-      -> limit(1)
-      -> first();
-  }
-
-  /**
     Standard query builder retriever for this repository, designed to allow
     for a standard set of rules to be updated in a single locale
 

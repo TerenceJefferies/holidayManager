@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\HolidayManager\HolidayTime\HolidayAllowanceRepository;
 use App\HolidayManager\HolidayTime\HolidayTimeCalculator;
+use App\HolidayManager\HolidayTime\HolidayExpenditureRepository;
 
 class HolidayAllowanceTest extends TestCase
 {
@@ -51,8 +52,8 @@ class HolidayAllowanceTest extends TestCase
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id]);
       factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id]);
-      $repo = new HolidayAllowanceRepository();
-      $expenditures = $repo -> getExpenditures($allowance);
+      $repo = new HolidayExpenditureRepository();
+      $expenditures = $repo -> getExpendituresForAllowance($allowance);
       $this -> assertContainsOnlyInstancesOf('App\HolidayManager\HolidayTime\HolidayExpenditure',$expenditures);
     }
 
@@ -80,8 +81,8 @@ class HolidayAllowanceTest extends TestCase
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
       factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5]);
-      $repo = new HolidayAllowanceRepository();
-      $expenditures = $repo -> getExpenditures($allowance);
+      $repo = new HolidayExpenditureRepository();
+      $expenditures = $repo -> getExpendituresForAllowance($allowance);
       $calculator = new HolidayTimeCalculator($allowance);
       $remainingDays = $calculator -> calculateRemainingDays($expenditures);
       $this -> assertEquals($remainingDays,5);
@@ -112,8 +113,8 @@ class HolidayAllowanceTest extends TestCase
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
       $correctResult = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'starts' => \Carbon\Carbon::now() -> addDays(5) -> toDateTImeString()]);
       factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'starts' => \Carbon\Carbon::now() -> addDays(10) -> toDateTimeString()]);
-      $repo = new HolidayAllowanceRepository();
-      $nextExpenditure = $repo -> getNextExpenditure($allowance);
+      $repo = new holidayExpenditureRepository();
+      $nextExpenditure = $repo -> getNextExpenditureForAllowance($allowance);
       $this -> assertEquals($correctResult -> id,$nextExpenditure -> id);
     }
 }

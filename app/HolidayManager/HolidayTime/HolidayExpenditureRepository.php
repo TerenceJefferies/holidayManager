@@ -2,6 +2,7 @@
 namespace App\HolidayManager\HolidayTime;
 
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
+Use Carbon\Carbon;
 
 class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterface{
 
@@ -15,6 +16,23 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
   */
   public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance) {
     return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> get();
+  }
+
+  /**
+    Gets the next expenditure for this holiday allowance for the user, closest
+    to the current date
+
+    @return \App\HolidayManager\HolidayTime\HolidayExpenditure The next
+    expenditure associated with the allowance
+  */
+  public function getNextExpenditureForAllowance(HolidayAllowanceInterface $holidayAllowance) {
+    $currentDate = Carbon::now() -> toDateTimeString();
+    return $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id')
+      -> getQuery()
+      -> where('starts','>',$currentDate)
+      -> orderBy('starts','asc')
+      -> limit(1)
+      -> first();
   }
 
   /**
