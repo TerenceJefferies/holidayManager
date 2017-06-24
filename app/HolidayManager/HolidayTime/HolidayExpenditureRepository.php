@@ -11,14 +11,19 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
   /**
     Gets the expenditures associated with an allowance
 
+    @param Boolean $showUnapproved If set to true unapproved expenditures will
+    be returned, optional, true by default
     @param \App\HolidayManager\HolidayTime\HolidayAllowanceInterface
     $holidayAllowance The allowance to get the expenditures for
 
     @return Collection The associated expenditures
   */
-  public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance) {
+  public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance,$showUnapproved=true) {
     $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
     $this -> scopeQuery($query);
+    if(!$showUnapproved) {
+      $query -> where('approved','=','1');
+    }
     return $query -> get();
   }
 

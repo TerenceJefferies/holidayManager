@@ -133,4 +133,21 @@ class HolidayAllowanceTest extends TestCase
       $nextExpenditure = $repo -> getNextExpenditureForAllowance($allowance,true);
       $this -> assertEquals($correctResult -> id,$nextExpenditure -> id);
     }
+
+    /**
+      Test to ensure that unapproved expenditures are not returned if told not
+      to do so
+
+      @return void
+    */
+    public function testHideUnapprovedExpenditures() {
+      $user = factory('App\HolidayManager\User\User') -> create();
+      $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'approved' => 0]);
+      $repo = new HolidayExpenditureRepository();
+      $expenditures = $repo -> getExpendituresForAllowance($allowance,false);
+      $calculator = new HolidayTimeCalculator($allowance);
+      $remainingDays = $calculator -> calculateRemainingDays($expenditures);
+      $this -> assertEquals($expenditures -> count(), 0);
+    }
 }
