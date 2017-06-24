@@ -32,8 +32,10 @@ class HolidayTimeCalculator{
   public function calculateRemainingDays(\Traversable $expenditures) {
     $totalDays = $this -> allowance -> getDays();
     foreach($expenditures as $expenditure) {
-      $daysUsed = $expenditure -> getDays();
-      $totalDays -= $daysUsed;
+      if($expenditure -> status != 'rejected') {
+        $daysUsed = $expenditure -> getDays();
+        $totalDays -= $daysUsed;
+      }
     }
     return $totalDays;
   }
@@ -48,7 +50,9 @@ class HolidayTimeCalculator{
   public static function calculateHolidayDaysUsed(\Traversable $expenditures) {
     $daysUsed = 0;
     foreach($expenditures as $expenditure) {
-      $daysUsed += $expenditure -> getDays();
+      if($expenditure -> status != 'rejected') {
+        $daysUsed += $expenditure -> getDays();
+      }
     }
     return $daysUsed;
   }

@@ -26,20 +26,36 @@
       @endif
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-2">Date Requested</div>
-    <div class="col-md-2">Start Date</div>
-    <div class="col-md-2">End Date</div>
-    <div class="col-md-2">Days</div>
-    <div class="col-md-2">Status</div>
+  <div class="dashboard-info-expenditures-container">
+    <div class="row dashboard-info-expenditures-headers hidden-sm hidden-xs">
+        <div class="col-md-2">Date Requested</div>
+        <div class="col-md-2">Start Date</div>
+        <div class="col-md-2">End Date</div>
+        <div class="col-md-2">Days</div>
+        <div class="col-md-2">Status</div>
+      </div>
+      @foreach($expenditures as $expenditure)
+        <div class="row dashboard-info-expenditures-list-container">
+          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Requested:</label> {{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
+          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Starts:</label> {{ $expenditure -> starts -> format('d/m/Y') }}</div>
+          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Ends:</label> {{ $expenditure -> ends -> format('d/m/Y') }}</div>
+          <div class="col-xs-12 col-md-2"><label class="hidden-md hidden-lg">Days:</label> {{ $expenditure -> days }}</div>
+          @if($expenditure -> status == 'approved')
+            <div class="col-xs-12 col-md-2 bg-success">
+              {{ $expenditure -> getStatusCodeName() }}
+            </div>
+          @endif
+          @if($expenditure -> status == 'pending')
+            <div class="col-xs-12 col-md-2 bg-warning">
+              {{ $expenditure -> getStatusCodeName() }}
+            </div>
+          @endif
+          @if($expenditure -> status == 'rejected')
+            <div class="col-xs-12 col-md-2 bg-danger">
+              {{ $expenditure -> getStatusCodeName() }}
+            </div>
+          @endif
+        </div>
+    @endforeach
   </div>
-  @foreach($expenditures as $expenditure)
-    <div class="row">
-      <div class="col-md-2">{{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
-      <div class="col-md-2">{{ $expenditure -> starts -> format('d/m/Y') }}</div>
-      <div class="col-md-2">{{ $expenditure -> ends -> format('d/m/Y') }}</div>
-      <div class="col-md-2">{{ $expenditure -> days }}</div>
-      <div class="col-md-2">{{ $expenditure -> getStatusCodeName() }}</div>
-    </div>
-  @endforeach
 @endsection('content')

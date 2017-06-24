@@ -37,6 +37,23 @@
   }
 }
 
+p.dashboard-info-expenditures-status{
+  display:inline-block;
+}
+
+div.dashboard-info-expenditures-list-container > div{
+  padding:10px;
+  text-align:center;
+}
+
+div.dashboard-info-expenditures-headers > div{
+  text-align:center;
+}
+
+div.dashboard-info-expenditures-container{
+  margin-top:20px;
+}
+
 p.dashboard-info-node-focus{
   font-size:2.5em;
   text-align:center;
