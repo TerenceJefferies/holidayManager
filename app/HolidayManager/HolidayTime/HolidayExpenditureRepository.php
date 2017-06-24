@@ -22,7 +22,7 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
     $this -> scopeQuery($query);
     if(!$showUnapproved) {
-      $query -> where('approved','=','1');
+      $query -> where('status','=','approved');
     }
     return $query -> get();
   }
@@ -45,7 +45,7 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     $this -> scopeQuery($query);
     $query -> where('starts','>',$currentDate);
     if(!$showUnapproved) {
-      $query -> where('approved','1');
+      $query -> where('status','=','approved');
     }
     $query -> orderBy('starts','asc')
       -> limit(1);

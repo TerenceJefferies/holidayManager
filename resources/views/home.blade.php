@@ -26,4 +26,20 @@
       @endif
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-2">Date Requested</div>
+    <div class="col-md-2">Start Date</div>
+    <div class="col-md-2">End Date</div>
+    <div class="col-md-2">Days</div>
+    <div class="col-md-2">Status</div>
+  </div>
+  @foreach($expenditures as $expenditure)
+    <div class="row">
+      <div class="col-md-2">{{ $expenditure -> created_at -> format('d/m/Y H:i') }}</div>
+      <div class="col-md-2">{{ $expenditure -> starts -> format('d/m/Y') }}</div>
+      <div class="col-md-2">{{ $expenditure -> ends -> format('d/m/Y') }}</div>
+      <div class="col-md-2">{{ $expenditure -> days }}</div>
+      <div class="col-md-2">{{ $expenditure -> getStatusCodeName() }}</div>
+    </div>
+  @endforeach
 @endsection('content')

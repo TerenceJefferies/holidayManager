@@ -47,6 +47,6 @@ $factory -> define(App\HolidayManager\HolidayTime\HolidayExpenditure::class, fun
     'days' => $faker -> numberBetween(10,50),
     'starts' => $startDate,
     'ends' => $endDate,
-    'approved' => $faker -> boolean()
+    'status' => $faker -> randomElement(['approved','pending','rejected'])
   ];
 });

@@ -111,8 +111,8 @@ class HolidayAllowanceTest extends TestCase
     public function testGetNextHoliday() {
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
-      $correctResult = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'approved' => 1,'starts' => \Carbon\Carbon::now() -> addDays(5) -> toDateTImeString()]);
-      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'approved' => 1,'starts' => \Carbon\Carbon::now() -> addDays(10) -> toDateTimeString()]);
+      $correctResult = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'status' => 'approved','starts' => \Carbon\Carbon::now() -> addDays(5) -> toDateTImeString()]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'status' => 'approved','starts' => \Carbon\Carbon::now() -> addDays(10) -> toDateTimeString()]);
       $repo = new HolidayExpenditureRepository();
       $nextExpenditure = $repo -> getNextExpenditureForAllowance($allowance);
       $this -> assertEquals($correctResult -> id,$nextExpenditure -> id);
@@ -127,8 +127,8 @@ class HolidayAllowanceTest extends TestCase
     public function testGetNextUnapprovedHoliday() {
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
-      $correctResult = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'approved' => 0,'starts' => \Carbon\Carbon::now() -> addDays(5) -> toDateTImeString()]);
-      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'approved' => 1,'starts' => \Carbon\Carbon::now() -> addDays(10) -> toDateTimeString()]);
+      $correctResult = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'status' => 'rejected','starts' => \Carbon\Carbon::now() -> addDays(5) -> toDateTImeString()]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 2,'status' => 'approved','starts' => \Carbon\Carbon::now() -> addDays(10) -> toDateTimeString()]);
       $repo = new HolidayExpenditureRepository();
       $nextExpenditure = $repo -> getNextExpenditureForAllowance($allowance,true);
       $this -> assertEquals($correctResult -> id,$nextExpenditure -> id);
@@ -143,7 +143,7 @@ class HolidayAllowanceTest extends TestCase
     public function testHideUnapprovedExpenditures() {
       $user = factory('App\HolidayManager\User\User') -> create();
       $allowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create(['user_id' => $user -> id,'days' => 10]);
-      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'approved' => 0]);
+      factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $allowance -> id,'days' => 5,'status' => 'rejected']);
       $repo = new HolidayExpenditureRepository();
       $expenditures = $repo -> getExpendituresForAllowance($allowance,false);
       $calculator = new HolidayTimeCalculator($allowance);
