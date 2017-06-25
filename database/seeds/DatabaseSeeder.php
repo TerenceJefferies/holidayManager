@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
         [
           'email' => 'tester@example.com',
           'password' => bcrypt('password')
-        ]
+        ],
+        'expenditureCount' => 10
       ]);
     }
 
@@ -38,12 +39,13 @@ class DatabaseSeeder extends Seeder
     */
     protected function createUserProfile($overrides=[]) {
       if(!isset($overrides['count'])) { $overrides['count'] = 1; }
+      if(!isset($overrides['expenditureCount'])) { $overrides['expenditureCount'] = 1; }
       if(!isset($overrides['userData'])) { $overrides['userData'] = []; }
-      factory(App\HolidayManager\User\User::class, $overrides['count']) -> create($overrides['userData']) -> each(function($user) {
-        factory(App\HolidayManager\HolidayTime\HolidayAllowance::class,1) -> create(['user_id' => $user -> id]) -> each(function($allowance) {
-          factory(App\HolidayManager\HolidayTime\HolidayExpenditure::class,1) -> create([
+      factory(App\HolidayManager\User\User::class, $overrides['count']) -> create($overrides['userData']) -> each(function($user) use ($overrides) {
+        factory(App\HolidayManager\HolidayTime\HolidayAllowance::class,1) -> create(['user_id' => $user -> id]) -> each(function($allowance) use ($overrides) {
+          factory(App\HolidayManager\HolidayTime\HolidayExpenditure::class,$overrides['expenditureCount']) -> create([
             'allowance_id' => $allowance -> id,
-            'days' => ($allowance -> days / rand(1,4))
+            'days' => ($allowance -> days / rand(2,4))
           ]);
         });
       });
