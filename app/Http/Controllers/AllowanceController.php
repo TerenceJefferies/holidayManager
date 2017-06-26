@@ -9,6 +9,7 @@ use App\HolidayManager\HolidayTime\HolidayExpenditureRepository;
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
 use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
 use App\HolidayManager\HolidayTime\HolidayTimeCalculator;
+use App\HolidayManager\HolidayTime\HolidayAllowanceInterface;
 
 class AllowanceController extends Controller
 {
@@ -33,6 +34,7 @@ class AllowanceController extends Controller
     */
     public function __construct(HolidayAllowanceRepositoryInterface $holidayAllowanceRepository, HolidayExpenditureRepositoryInterface $holidayExpenditureRepository) {
       $this -> middleware('auth');
+      /** @TODO Middleware must belong to user */
       $this -> holidayAllowanceRepository = $holidayAllowanceRepository;
       $this -> holidayExpenditureRepository = $holidayExpenditureRepository;
       }
@@ -92,7 +94,12 @@ class AllowanceController extends Controller
      */
     public function show($id)
     {
-        //
+      $allowance = $this -> holidayAllowanceRepository -> getById($id,true);
+      $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowance($allowance);
+      return view('allowance.show',[
+        'allowance' => $allowance,
+        'expenditures' => $expenditures
+      ]);
     }
 
     /**

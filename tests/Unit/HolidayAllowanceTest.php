@@ -204,4 +204,26 @@ class HolidayAllowanceTest extends TestCase
       $limitedExpenditures = $repo -> getExpendituresForAllowanceByStatus($allowance,'approved',2);
       $this -> assertEquals(2,$limitedExpenditures -> count());
     }
+
+    /**
+      Tests to ensure we can get an allowance by ID wth and without rules
+      applied
+
+      @return void
+    */
+    public function testGetAllowanceById() {
+      $user = factory('App\HolidayManager\User\User') -> create();
+      $targetAllowance = factory('App\HolidayManager\HolidayTime\HolidayAllowance') -> create([
+        'user_id' => $user -> id,
+        'days' => 10,
+        'starts' => \Carbon\Carbon::now() -> subDays(10) -> toDateTimeString(),
+        'ends' => \Carbon\Carbon::now() -> subDays(5) -> toDateTimeString()
+      ]);
+      $repo = new HolidayAllowanceRepository();
+      $allowance = $repo -> getById($targetAllowance -> id);//The new allowance is expired and we are following the rules, we expect nothing back
+      $this -> assertNull($allowance);
+      $allowance = $repo -> getById($targetAllowance -> id,true);//The new allowance is expired and we are following the rules, we expect nothing back
+      $this -> assertInstanceOf('App\HolidayManager\HolidayTime\HolidayAllowance',$allowance);
+      $this -> assertEquals($targetAllowance -> id, $allowance -> id);
+    }
 }

@@ -6,3 +6,44 @@ div.allowance-list > div{
   padding-top:10px;
   padding-bottom:10px;
 }
+
+@media screen and (max-width: 767px) {
+  div.usage-table-contentrow{
+    margin-top:40px;
+  }
+
+  div.usage-table-actions{
+    margin-top:10px;
+  }
+
+  div.usage-table-actions button{
+    width:100%;
+  }
+
+  div.usage-table-status{
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  div.usage-table > div.row:nth-child(odd):not(.usage-table-headers) > div:not(.usage-table-status):not(.usage-table-actions){
+    background-color:#CCE8EC;
+  }
+
+  div.usage-table-headers > div{
+    background-color: #2BA5B6;
+    color:white;
+    text-align:center;
+  }
+
+  div.usage-table > div > div {
+    text-align:center;
+    height:50px;
+    padding-top:15px;
+  }
+
+  div.usage-table{
+    margin-top:20px;
+  }
+}

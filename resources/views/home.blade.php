@@ -1,7 +1,7 @@
 @extends('layouts.common')
 
 @section('head')
-<link rel="stylesheet" href="css/home.css" type="text/css">
+<link rel="stylesheet" href="{{ URL::asset('css/home.css') }}" type="text/css">
 @endsection('head')
 
 @section('content')
@@ -29,7 +29,7 @@
   <div class="row dashboard-action-button-container">
     <a href="{{ route('allowance') }}"><div class="col-md-3">View my allowance</div></a>
     <a href="#"><div class="col-md-4 col-md-offset-1">Request a new holiday</div></a>
-    <a href="#"><div class="col-md-3 col-md-offset-1">My usage</div></a>
+    <a href="{{ route('showAllowance', ['id' => $allowance -> id ]) }}"><div class="col-md-3 col-md-offset-1">My usage</div></a>
   </div>
   @if($expenditures -> count() > 0)
     <div class="dashboard-info-expenditures-container">

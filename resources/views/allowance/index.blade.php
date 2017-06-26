@@ -1,7 +1,7 @@
 @extends('layouts.common')
 
 @section('head')
-<link type="text/css" rel="stylesheet" href="css/allowance.css" />
+<link type="text/css" rel="stylesheet" href="{{ URL::asset('css/allowance.css')  }}" />
 @endsection('head')
 
 @section('content')

@@ -26,6 +26,26 @@ class HolidayAllowanceRepository implements HolidayAllowanceRepositoryInterface{
   }
 
   /**
+    Gets an allowance by its ID
+
+    @param Int $id The ID to get
+    @param Boolean $ignoreRules If set to true, the exclusion rules will be
+    applied
+
+    @return \App\HolidayManager\HolidayTime\HolidayAllowance The allowance
+    found
+  */
+  public function getById($id,$ignoreRules=false) {
+    $ruleExclusions = ($ignoreRules) ? ['starts','ends'] : [];
+    $query = HolidayAllowance::query();
+    $this -> scopeQuery($query, $ruleExclusions);
+    $allowance = $query
+      -> where('id','=',$id)
+      -> first();
+    return $allowance;
+  }
+
+  /**
     Standardises a method to follow basic rules
 
     @param \Illuminate\Database\Eloquent\Builder $query The query to scope
@@ -36,10 +56,10 @@ class HolidayAllowanceRepository implements HolidayAllowanceRepositoryInterface{
   */
   private function scopeQuery(Builder &$query, $ruleExclusions=[]) {
     $currentDate = Carbon::now() -> toDateTimeString();
-    if(!isset($ruleExclusions['starts'])) {
+    if(!in_array('starts',$ruleExclusions)) {
       $query -> where('starts','<=',$currentDate);
     }
-    if(!isset($ruleExclusions['ends'])) {
+    if(!in_array('ends',$ruleExclusions)) {
       $query -> where('ends','>',$currentDate);
     }
   }

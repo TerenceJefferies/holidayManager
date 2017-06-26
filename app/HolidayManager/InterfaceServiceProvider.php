@@ -19,6 +19,10 @@
         'App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface',
         'App\HolidayManager\HolidayTime\HolidayExpenditureRepository'
       );
+      $this -> app -> bind(
+        'App\HolidayManager\HolidayTime\HolidayAllowanceInterface',
+        'App\HolidayManager\HolidayTime\HolidayAllowance'
+      );
     }
 
   }

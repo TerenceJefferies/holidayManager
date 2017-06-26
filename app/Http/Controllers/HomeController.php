@@ -53,7 +53,8 @@ class HomeController extends Controller
         'daysUsed' => $daysUsed,
         'periodName' => $allowance -> period_name,
         'nextHoliday' => $nextHoliday,
-        'expenditures' => $expenditures
+        'expenditures' => $expenditures,
+        'allowance' => $allowance
       ]);
     } else {
       //There is no allowance for the user???
