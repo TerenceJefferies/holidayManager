@@ -10,8 +10,19 @@ use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
 class VerifyAllowanceOwner
 {
 
+    /**
+     * Should contain a HolidayAllowanceRepositoryInterface compatible object
+     *
+     * @var \App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface
+     * $holidayAllowanceRepository
+     */
     private $holidayAllowanceRepository;
 
+    /**
+     * Bootstrap method for the VerifyAllowanceOwner class
+     * @param \App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface $holidayAllowanceRepository
+     * A compatible object to get necessary data from
+     */
     public function __construct(HolidayAllowanceRepositoryInterface $holidayAllowanceRepository)
     {
       $this -> holidayAllowanceRepository = $holidayAllowanceRepository;
