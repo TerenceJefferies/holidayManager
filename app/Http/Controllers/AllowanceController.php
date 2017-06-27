@@ -34,7 +34,7 @@ class AllowanceController extends Controller
     */
     public function __construct(HolidayAllowanceRepositoryInterface $holidayAllowanceRepository, HolidayExpenditureRepositoryInterface $holidayExpenditureRepository) {
       $this -> middleware('auth');
-      /** @TODO Middleware must belong to user */
+      $this -> middleware('allowanceOwner');
       $this -> holidayAllowanceRepository = $holidayAllowanceRepository;
       $this -> holidayExpenditureRepository = $holidayExpenditureRepository;
       }
