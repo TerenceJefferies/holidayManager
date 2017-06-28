@@ -28,7 +28,7 @@
   </div>
   <div class="row dashboard-action-button-container">
     <a href="{{ route('allowance') }}"><div class="col-md-3">View my allowance</div></a>
-    <a href="#"><div class="col-md-4 col-md-offset-1">Request a new holiday</div></a>
+    <a href="{{ route('createExpenditure') }}"><div class="col-md-4 col-md-offset-1">Request a new holiday</div></a>
     <a href="{{ route('showAllowance', ['id' => $allowance -> id ]) }}"><div class="col-md-3 col-md-offset-1">My usage</div></a>
   </div>
   @if($expenditures -> count() > 0)
