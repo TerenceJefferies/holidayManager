@@ -57,7 +57,7 @@ class HomeController extends Controller
         'allowance' => $allowance
       ]);
     } else {
-      //There is no allowance for the user???
+      //No allowance for the user
     }
   }
 
