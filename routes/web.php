@@ -12,4 +12,6 @@ Route::get('/allowance/show/{id}','AllowanceController@show') -> name('showAllow
 
 Route::get('/expenditure/create','ExpenditureController@create') -> name('createExpenditure');
 
+
 Route::post('/login','LoginController@login');
+Route::post('/expenditure/store','ExpenditureController@store') -> name('storeExpenditure');

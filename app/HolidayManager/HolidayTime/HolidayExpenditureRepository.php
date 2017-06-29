@@ -104,6 +104,26 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
   }
 
   /**
+   * Creates a new expenditure by it's allowance
+   * @param  Integer $allowanceId The ID of the allowance to associated the
+   * expenditure with
+   * @param  Carbon $startDate   The start date of the expenditure
+   * @param  Float $days        The number of days the expenditure goes on for
+   */
+  public function createByAllowanceId($allowanceId,Carbon $startDate,$days) {
+    $endDate = clone $startDate;
+    $daysRounded = floor($days);//We floor the value to ensure half days stay correct
+    $endDate -> addDays($days);
+    $expenditure = HolidayExpenditure::create([
+        'allowance_id' => $allowanceId,
+        'starts' => $startDate -> toDateString(),
+        'ends' => $endDate -> toDateString(),
+        'days' => $days,
+        'status' => 'pending'
+    ]);
+  }
+
+  /**
     Scoping method to ensure the query made follows any applicable rules
 
     @param \Illuminate\Database\Eloquent\Builder The builder to scope - Pass

@@ -5,13 +5,22 @@
 @endsection('head')
 
 @section('content')
-  <form action="" method="POST">
+  <form action="{{ route('storeExpenditure') }}" method="POST">
     <div class="row">
       <div class="page-header">
         <h1>Request a new Holiday</h1>
         <span class="sub-header">Allows you to request a holiday by start/end Date, or by amount of days.</span>
       </div>
     </div>
+    @if($errors -> any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach($errors -> all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
     <div class="row">
       <div class="col-md-7">
         <div class="row">
@@ -23,7 +32,7 @@
                   <div class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </div>
-                  <input type="date" name="startDate" class="form-control" id="expenditure-startdate">
+                  <input type="date" name="startDate" class="form-control" id="expenditure-startdate" value="{{ old('startDate') }}">
                 </div>
               </div>
           </div>
@@ -35,7 +44,7 @@
                   <div class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </div>
-                  <input type="date" id="expenditure-ends" class="form-control" name="endDate">
+                  <input type="date" id="expenditure-ends" class="form-control" name="endDate" value="{{ old('endDate') }}">
                 </div>
               </div>
           </div>
@@ -44,7 +53,7 @@
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <div class="form-group">
                 <label for="expenditure-days">Days:</label>
-                <input type="number" id="expenditure-days" class="form-control" name="days" min="1" step=".5" placeholder="0">
+                <input type="number" id="expenditure-days" class="form-control" name="days" min="1" step=".5" placeholder="0" value="{{ old('days') }}">
               </div>
           </div>
         </div>

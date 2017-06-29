@@ -2,10 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
+use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
+use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
+use App\HolidayManager\HolidayTime\HolidayTimeCalculator;
+use Carbon\Carbon;
 
 class ExpenditureController extends Controller
 {
+
+    /**
+     * Repository for holiday expenditure objects
+     * @var App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface
+     */
+    private $holidayExpenditureRepository;
+
+    /**
+     * Repository for holiday allowances
+     * @var App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface
+     */
+    private $holidayAllowanceRepository;
+
+    /**
+     * Bootstrap method for setting up the Controller
+     * @param \App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface
+     * $holidayExpenditureRepository The repository to work with for this object
+     * type
+     */
+    public function __construct(HolidayExpenditureRepositoryInterface $holidayExpenditureRepository,HolidayAllowanceRepositoryInterface $holidayAllowanceRepository) {
+      $this -> holidayExpenditureRepository = $holidayExpenditureRepository;
+      $this -> holidayAllowanceRepository = $holidayAllowanceRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +53,6 @@ class ExpenditureController extends Controller
      */
     public function create()
     {
-        
         return view('expenditure.create');
     }
 
@@ -35,7 +64,21 @@ class ExpenditureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $allowance = $this -> holidayAllowanceRepository -> getByUserId($user -> id);
+        $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowanceByStatus($allowance,['approved','pending']);
+        $calculator = new HolidayTimeCalculator($allowance);
+        $remainingDays = $calculator -> calculateRemainingDays($expenditures);
+        $this -> validate($request,[
+          'startDate' => 'required|date',
+          'endDate' => 'required|date',
+          'days' => 'required|min:1|max:' . $remainingDays
+        ],[
+          'days.max' => 'You have insufficient holiday time remaining in your current allowance'
+        ]);
+        $startDate = Carbon::createFromFormat('Y-m-d',$request -> startDate);
+        $this -> holidayExpenditureRepository -> createByAllowanceId($allowance -> id,$startDate,$request -> days);
+        return view('expenditure.create');
     }
 
     /**

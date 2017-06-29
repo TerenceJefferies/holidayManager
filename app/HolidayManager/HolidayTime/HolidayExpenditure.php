@@ -8,6 +8,9 @@ use App\HolidayManager\HolidayTime\HolidayExpenditureInterface;
 class HolidayExpenditure extends Model implements HolidayExpenditureInterface
 {
 
+
+  protected $fillable = ['allowance_id','starts','ends','days','status'];
+
   /**
     @var Array The statuc code storage names mapped to their friendly names
   */
