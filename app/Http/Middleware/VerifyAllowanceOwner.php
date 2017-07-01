@@ -39,7 +39,7 @@ class VerifyAllowanceOwner
     {
         $targetAllowance = $this -> holidayAllowanceRepository -> getById($request -> id,true);
         if(Auth::user() -> id != $targetAllowance -> user_id) {
-          return redirect('/home');
+          return redirect('home');
         }
         return $next($request);
     }
