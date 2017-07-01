@@ -9,4 +9,5 @@ interface HolidayExpenditureRepositoryInterface{
   public function getNextExpenditureForAllowance(HolidayAllowanceInterface $holidayAllowance,$showUnapproved=false);
   public function getExpendituresForAllowanceByStatus(HolidayAllowanceInterface $holidayAllowance,$status,Int $limit=0,$orderField='created_at',$orderDirection='desc');
   public function createByAllowanceId($allowanceId,Carbon $startDate,$days);
+  public function getByExpenditureId($id);
 }

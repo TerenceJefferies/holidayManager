@@ -136,6 +136,18 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
   }
 
   /**
+   * Gets an expenditure from the database by it's ID
+   *
+   * @param Integer $id The ID of the expenditure to retrieve
+   * @return App\HolidayManager\HolidayTime\HolidayExpenditureInterface The
+   * expenditure retrieved
+   */
+  public function getByExpenditureId($id) {
+      $result = HolidayExpenditure::query() -> where('id','=',$id) -> first();
+      return $result;
+  }
+
+  /**
     Scoping method to ensure the query made follows any applicable rules
 
     @param \Illuminate\Database\Eloquent\Builder The builder to scope - Pass
