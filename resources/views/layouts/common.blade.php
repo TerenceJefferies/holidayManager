@@ -9,6 +9,9 @@
   </head>
 <html>
 <body>
+  @if(Session::get('submission'))
+    @include('layouts.partials.flashSubmission')
+  @endif
   @include('layouts.partials.header')
   <div class="container">
     @yield('content')

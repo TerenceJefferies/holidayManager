@@ -45,7 +45,7 @@ class HomeController extends Controller
       $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowance($allowance);
       $holidayTimeCalculator = new HolidayTimeCalculator($allowance);
       $daysRemaining = $holidayTimeCalculator -> calculateRemainingDays($expenditures);
-      $daysUsed = HolidayTimeCalculator::calculateHolidayDaysUsed($expenditures);
+      $daysUsed = $holidayTimeCalculator -> calculateHolidayDaysUsed($expenditures);
       $nextHoliday = $this -> holidayExpenditureRepository -> getNextExpenditureForAllowance($allowance);
       return view('home',[
         'userName' => $user -> name,

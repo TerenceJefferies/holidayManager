@@ -28,3 +28,13 @@ div.header-logo{
   width:100%;
   text-align:center;
 }
+
+div.flash-message-container{
+  margin:0;
+  padding:0;
+}
+
+div.flash-message{
+  padding:10px;
+  text-align:center;
+}
