@@ -148,6 +148,27 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
   }
 
   /**
+   * Gets any expenditures for the allowance provided for the time period
+   * provided
+   * @param  HolidayAllowanceInterface $holidayAllowance The allowance to check
+   * @param  Carbon                    $startDate        Start of the period
+   * @param  Carbon                    $endDate          End of the period
+   * @return HolidayExpenditureInterface The expenditure found
+   */
+  public function getByPeriod(HolidayAllowanceInterface $holidayAllowance,Carbon $startDate, Carbon $endDate)
+  {
+    $expenditures = $this -> getExpendituresForAllowanceByStatus($holidayAllowance,['pending','approved']);
+    if($expenditures) {
+      foreach($expenditures as $expenditure) {
+        if($expenditure -> starts <= $startDate && $expenditure -> ends > $endDate) {
+          return $expenditure;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
     Scoping method to ensure the query made follows any applicable rules
 
     @param \Illuminate\Database\Eloquent\Builder The builder to scope - Pass

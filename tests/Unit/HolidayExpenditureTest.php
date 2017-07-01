@@ -88,4 +88,16 @@ class HolidayExpenditureTest extends TestCase
         $this -> assertEquals($createdExpenditure -> allowance_id,$databaseExpenditure -> allowance_id);
     }
 
+    /**
+     * Tests to ensure data can be returned from the repository by period
+     */
+    public function testGetByPeriod()
+    {
+      $startDate = Carbon::now();
+      $endDate = Carbon::now() -> addDays(10);
+      $expenditure = factory('App\HolidayManager\HolidayTime\HolidayExpenditure') -> create(['allowance_id' => $this -> allowance -> id,'starts' => $startDate -> toDateString(), 'ends' => $endDate -> toDateString()]);
+      $result = $this -> holidayExpenditureRepository -> getByPeriod($this -> allowance, $startDate, $endDate -> subDays(1));
+      $this -> assertEquals($expenditure -> id, $result -> id);
+    }
+
 }
