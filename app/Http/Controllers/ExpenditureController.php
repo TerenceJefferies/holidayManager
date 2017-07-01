@@ -79,7 +79,7 @@ class ExpenditureController extends Controller
         $startDate = Carbon::createFromFormat('Y-m-d',$request -> startDate);
         $this -> holidayExpenditureRepository -> createByAllowanceId($allowance -> id,$startDate,$request -> days);
         $request -> session() -> flash('submission','Your request has been successfully created');
-        return redirect(route('createExpenditure'));
+        return redirect() -> route('createExpenditure');
     }
 
     /**
