@@ -87,6 +87,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
+    'holiday_expenditure_not_conflicting' => 'This request conflicts with a pre-existing request',
 
     /*
     |--------------------------------------------------------------------------
