@@ -117,6 +117,9 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
    * expenditure with
    * @param  Carbon $startDate   The start date of the expenditure
    * @param  Float $days        The number of days the expenditure goes on for
+   *
+   * @return App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface
+   * The new expenditure that has been created
    */
   public function createByAllowanceId($allowanceId,Carbon $startDate,$days) {
     $endDate = clone $startDate;
@@ -129,6 +132,7 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
         'days' => $days,
         'status' => 'pending'
     ]);
+    return $expenditure;
   }
 
   /**
