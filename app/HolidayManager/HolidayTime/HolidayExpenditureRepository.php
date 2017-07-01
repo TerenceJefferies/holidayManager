@@ -17,10 +17,12 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     for, or an array of statuses being searched for
     @param Integer $limit The maximum number of results that should be
     returned
+    @param String $orderField The field to order the results on
+    @param String $orderDirection The direction to order the results field on
 
     @return Collection The reults - Null if nothing available
   */
-  public function getExpendituresForAllowanceByStatus(HolidayAllowanceInterface $holidayAllowance,$status,Int $limit=0) {
+  public function getExpendituresForAllowanceByStatus(HolidayAllowanceInterface $holidayAllowance,$status,Int $limit=0,$orderField='created_at',$orderDirection='desc') {
     $query = $holidayAllowance -> hasMany('App\HolidayManager\HolidayTime\HolidayExpenditure','allowance_id') -> getQuery();
     $this -> scopeQuery($query);
     if($status) {
@@ -36,6 +38,10 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
         $query -> where('status','=',$status);
       }
     }
+    if($orderField) {
+      $commitOrderDirection = ($orderDirection) ? $orderDirection : 'asc';
+      $query -> orderBy($orderField,$orderDirection);
+    }
     if($limit > 0) {
       $query -> limit($limit);
     }
@@ -49,15 +55,17 @@ class HolidayExpenditureRepository implements HolidayExpenditureRepositoryInterf
     @param Boolean $showUnapproved If set to true unapproved expenditures will
     be returned, optional, true by default
     @param Integer $limit The maximum number of results to return
+    @param String $orderField The field to order the results on
+    @param String $orderDirection The direction to order the results field on
 
     @return Collection The associated expenditures
   */
-  public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance,Bool $showUnapproved=true,Int $limit=0) {
+  public function getExpendituresForAllowance(HolidayAllowanceInterface $holidayAllowance,Bool $showUnapproved=true,Int $limit=0,$orderField='created_at',$orderDirection='desc') {
     $restrictions = null;
     if(!$showUnapproved) {
       $restrictions = ['approved'];
     }
-    $result = $this -> getExpendituresForAllowanceByStatus($holidayAllowance,$restrictions,$limit);
+    $result = $this -> getExpendituresForAllowanceByStatus($holidayAllowance,$restrictions,$limit,$orderField,$orderDirection);
     return $result;
   }
 
