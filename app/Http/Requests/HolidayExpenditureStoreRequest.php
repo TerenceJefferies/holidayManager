@@ -47,8 +47,7 @@ class HolidayExpenditureStoreRequest extends FormRequest
         $user = Auth::user();
         $allowance = $this -> holidayAllowanceRepository -> getByUserId($user -> id);
         $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowanceByStatus($allowance,['approved','pending']);
-        $calculator = new HolidayTimeCalculator($allowance);
-        $remainingDays = $calculator -> calculateRemainingDays($expenditures);
+        $remainingDays = $allowance -> calculateRemainingDays($expenditures);
         return [
           'startDate' => 'required|date|before:endDate|after_or_equal:today|holidayExpenditureNotConflicting',
           'endDate' => 'required|date|after:today|after:startDate',

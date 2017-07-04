@@ -9,7 +9,6 @@ use App\Http\Requests\HolidayExpenditureStoreRequest;
 
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
 use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
-use App\HolidayManager\HolidayTime\HolidayTimeCalculator;
 use Carbon\Carbon;
 
 class ExpenditureController extends Controller

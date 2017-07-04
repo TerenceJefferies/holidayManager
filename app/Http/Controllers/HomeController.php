@@ -8,7 +8,6 @@ use App\HolidayManager\HolidayTime\HolidayAllowanceRepository;
 use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepository;
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
-use App\HolidayManager\HolidayTime\HolidayTimeCalculator;
 
 class HomeController extends Controller
 {
@@ -43,9 +42,8 @@ class HomeController extends Controller
     $allowance = $this -> holidayAllowanceRepository -> getByUserId($user -> id);
     if($allowance) {//The user may not have any allowances
       $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowance($allowance);
-      $holidayTimeCalculator = new HolidayTimeCalculator($allowance);
-      $daysRemaining = $holidayTimeCalculator -> calculateRemainingDays($expenditures);
-      $daysUsed = $holidayTimeCalculator -> calculateHolidayDaysUsed($expenditures);
+      $daysRemaining = $allowance -> calculateRemainingDays($expenditures);
+      $daysUsed = $allowance -> calculateHolidayDaysUsed($expenditures);
       $nextHoliday = $this -> holidayExpenditureRepository -> getNextExpenditureForAllowance($allowance);
       return view('home',[
         'userName' => $user -> name,

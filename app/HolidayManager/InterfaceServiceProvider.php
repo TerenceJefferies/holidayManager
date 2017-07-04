@@ -1,9 +1,15 @@
 <?php
   namespace App\HolidayManager;
 
+  use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\ServiceProvider;
 
+  use App\HolidayManager\HolidayTime\HolidayAllowanceInterface;
+  use App\HolidayManager\HolidayTime\HolidayAllowance;
+
   class InterfaceServiceProvider extends ServiceProvider {
+
+    protected $defer = true;
 
     /**
       Registers services

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepository;
 use App\HolidayManager\HolidayTime\HolidayExpenditureRepositoryInterface;
 use App\HolidayManager\HolidayTime\HolidayAllowanceRepositoryInterface;
-use App\HolidayManager\HolidayTime\HolidayTimeCalculator;
 use App\HolidayManager\HolidayTime\HolidayAllowanceInterface;
 
 class AllowanceController extends Controller
@@ -49,8 +48,7 @@ class AllowanceController extends Controller
         $user = Auth::user();
         $allowance = $this -> holidayAllowanceRepository -> getByUserId($user -> id);
         $expenditures = $this -> holidayExpenditureRepository -> getExpendituresForAllowance($allowance);
-        $calculator = new HolidayTimeCalculator($allowance);
-        $daysUsed = $calculator -> calculateHolidayDaysUsed($expenditures);
+        $daysUsed = $allowance -> calculateHolidayDaysUsed($expenditures);
         $acceptedRequests = $this -> holidayExpenditureRepository -> getExpendituresForAllowanceByStatus($allowance,'approved');
         $rejectedRequests = $this -> holidayExpenditureRepository -> getExpendituresForAllowanceByStatus($allowance,'rejected');
         if($allowance) {
